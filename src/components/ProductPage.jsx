@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import CheckoutModal from './CheckoutModal';
 
 const ProductPage = () => {
   const [product, setProduct] = useState([]);
@@ -7,6 +8,8 @@ const ProductPage = () => {
   const [categoryId, setCategoryId] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
+  //Modal checkout
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const colors = [
     '#796e72' //Classic gray
@@ -48,6 +51,15 @@ const ProductPage = () => {
         console.error(error)
     }
   }
+
+  //Modal checkout
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div>
@@ -96,9 +108,10 @@ const ProductPage = () => {
                             </button>
                         ))}
                     </div>
-                    <button className='w-full h-11 bg-orange-400 text-white rounded-lg'>
+                    <button className='w-full h-11 bg-orange-400 text-white rounded-lg' onClick={openModal}>
                         Add to Cart
                     </button>
+                    <CheckoutModal isOpen={isModalOpen} onClose={closeModal} />
                     <h3 className='text-lg font-medium'>Description:</h3>
                     <p className='font-light'>{product.description}</p>
                     <br />
