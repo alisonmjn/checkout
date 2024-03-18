@@ -63,9 +63,14 @@ const ProductPage = () => {
     setIsModalOpen(false);
   };
 
-  const onSubmit = (data) => {
-    if (!Object.keys(errors).length) {
-      openModal();
+  const onSubmit = async (data) => {
+    try {
+      await trigger();
+      if (!Object.keys(errors).length) {
+        openModal();
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -101,7 +106,7 @@ const ProductPage = () => {
                 </div>
                 <p className='text-red-500'>{errors.selectedSize?.message}</p>
                 <input type="submit" onClick={handleSubmit(onSubmit)} className='w-full h-11 bg-orange-400 text-white rounded-lg' value="Add to Cart" />
-                <CheckoutModal isOpen={isModalOpen} onClose={closeModal} />
+                <CheckoutModal isOpen={isModalOpen} onClose={closeModal}  product={product}/>
                 <h3 className='text-lg font-medium'>Description:</h3>
                 <p className='font-light'>{product.description}</p>
                 <br />
@@ -116,7 +121,7 @@ const ProductPage = () => {
             </h2>
             <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-8'>
               {products.map((product) => (
-                <img key={product.id} className='rounded-lg shadow-md hover:shadow-xl' src={product.image} alt={product.title}/>
+                <img key={product.id} className='rounded-lg shadow-md hover:shadow-xl' style={{ width: '200px', height: '200px' }} src={product.image} alt={product.title}/>
               ))}
             </div>
           </div>
